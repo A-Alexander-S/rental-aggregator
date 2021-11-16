@@ -1,0 +1,22 @@
+{
+  "name": "rental-aggregator",
+  "version": "1.0.0",
+  "description": "rental-aggregator(typeScript)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A-Alexander-S/rental-aggregator.git"
+  },
+  "author": "Akimov Alexander",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/A-Alexander-S/rental-aggregator/issues"
+  },
+  "homepage": "https://github.com/A-Alexander-S/rental-aggregator#readme",
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  }
+}
