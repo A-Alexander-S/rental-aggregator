@@ -4,6 +4,9 @@
   "description": "rental-aggregator(typeScript)",
   "main": "index.js",
   "scripts": {
+    "build": "rd -r public\\ 2>null & tsc",
+    "build:dev": "rd -r public\\ 2>null & tsc -p tsconfig-dev.json",
+    "start": "http-server -p 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +20,10 @@
   },
   "homepage": "https://github.com/A-Alexander-S/rental-aggregator#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.3.0",
+    "http-server": "^14.0.0",
     "typescript": "^4.4.4"
   }
 }
