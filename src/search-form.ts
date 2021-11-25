@@ -3,11 +3,20 @@ import { renderToast } from './lib.js'
 
 export function renderSearchFormBlock(dateArrival?: string, dateOfDeparture?: string) {
 
-  let defaultDateArrival = String(new Date().getFullYear()) + '-' + String(new Date().getMonth()) + '-' + String(new Date().getDate() + 1);
-  console.log(defaultDateArrival)
-  let defaultDateOfDeparture = String(new Date().getFullYear()) + '-' + String(new Date().getMonth()) + '-' + String(new Date().getDate() + 1 + 2);
+  //Функция возвращает последнее число переданного месяца переданного года
+  function getLastDayOfMonth(year: number, month: number): number {
+    let date = new Date(year, month, 0);
+    return date.getDate();
+  }
+  // Расчет месяца, который следует за текущим
+  let maxDateArrival: number = new Date().getMonth() <= 10 ? new Date().getMonth() + 1 : 0;
 
+  //Дефолтная дата выезда - следующий день от текущей даты
+  let defaultDateArrival: string = String(new Date().getFullYear()) + '-' + String(new Date().getMonth()) + '-' + String(new Date().getDate() + 1);
+  let maxDefaultDateArrival: string = String(new Date().getFullYear()) + '-' + String(maxDateArrival) + '-' + String(getLastDayOfMonth(new Date().getFullYear(), maxDateArrival));
 
+  //Дата выезда - плюс два дня от даты въезда
+  let defaultDateOfDeparture: string = String(new Date().getFullYear()) + '-' + String(new Date().getMonth()) + '-' + String(new Date().getDate() + 1 + 2);
 
   renderBlock(
     'search-form-block',
@@ -28,11 +37,11 @@ export function renderSearchFormBlock(dateArrival?: string, dateOfDeparture?: st
         <div class="row">
           <div>
             <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value=${defaultDateArrival} min=${defaultDateArrival} max="2021-06-30" name="checkin" />
+            <input id="check-in-date" type="date" value=${defaultDateArrival} min=${defaultDateArrival}  max=${maxDefaultDateArrival} name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value=${defaultDateOfDeparture} min=${defaultDateOfDeparture} max="2021-06-30" name="checkout" />
+            <input id="check-out-date" type="date" value=${defaultDateOfDeparture} min=${defaultDateOfDeparture}  name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
@@ -47,38 +56,18 @@ export function renderSearchFormBlock(dateArrival?: string, dateOfDeparture?: st
     `
   )
 
-  // if (dateArrival >= (String(new Date().getFullYear()) + '-' + String(new Date().getMonth()) + '-' + String(new Date().getDate())) && (dateArrival < (String(new Date().getFullYear()) + '-' + String(new Date().getMonth() + 1) + '-' + '28'))) {
-
-  // } else {
-
-  // }
-
-  let btnSend = document.querySelector(".send");
-  // console.log(btnSend)
-  btnSend.addEventListener('click', () => {
-    let checkInDateSend = document.querySelector("#check-in-date");
+  document.querySelector(".send").addEventListener('click', (e) => {
+    let checkInDate = document.querySelector("#check-in-date");
     let checkOutDate = document.querySelector("#check-out-date");
-    console.log(checkInDateSend.value)
-    console.log(checkOutDate.value)
 
-    console.log(new Date(checkInDateSend.value) == new Date(checkOutDate.value))
-    console.log(new Date(checkInDateSend.value) > new Date(checkOutDate.value))
-    console.log(new Date(checkInDateSend.value) < new Date(checkOutDate.value))
-
-    // console.log(btncheckInDateSend.value < checkOutDate.value)
-    // renderSearchFormBlock()
-
-    if (new Date(dateArrival.value) >= new Date(checkInDateSend.value)) {
-      console.log("ok")
+    if (new Date((checkInDate.value).slice(0, 4) + '-' + (checkInDate.value).slice(5, 7) + '-' + (checkInDate.value).slice(8)) <= new Date((checkOutDate.value).slice(0, 4) + '-' + (checkOutDate.value).slice(5, 7) + '-' + (checkOutDate.value).slice(8))) {
+      console.log("ok!")
     } else {
       renderToast(
         { text: 'Минимальная дата въезда, которую можно выбрать это дата сегодняшнего дня, а максимальная дата - последний день следующего месяца.', type: 'success' },
         { name: 'Понял', handler: () => { console.log('Уведомление закрыто') } }
       )
     }
-
+    e.preventDefault()
   })
-
-
-
 }

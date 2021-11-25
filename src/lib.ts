@@ -3,7 +3,17 @@ export function renderBlock(elementId: string, html: string): void {
   element.innerHTML = html
 }
 
-export function renderToast(message: object, action?: object) {
+interface AnswerRenderToast {
+  text: string,
+  type: string
+}
+
+interface ActionRenderToast {
+  name: string,
+  handler: Function
+}
+
+export function renderToast(message: AnswerRenderToast, action?: ActionRenderToast): void {
   let messageText = ''
 
   if (message != null) {

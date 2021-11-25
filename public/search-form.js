@@ -1,8 +1,17 @@
 import { renderBlock } from './lib.js';
 import { renderToast } from './lib.js';
 export function renderSearchFormBlock(dateArrival, dateOfDeparture) {
+    //Функция возвращает последнее число переданного месяца переданного года
+    function getLastDayOfMonth(year, month) {
+        let date = new Date(year, month, 0);
+        return date.getDate();
+    }
+    // Расчет месяца, который следует за текущим
+    let maxDateArrival = new Date().getMonth() <= 10 ? new Date().getMonth() + 1 : 0;
+    //Дефолтная дата выезда - следующий день от текущей даты
     let defaultDateArrival = String(new Date().getFullYear()) + '-' + String(new Date().getMonth()) + '-' + String(new Date().getDate() + 1);
-    console.log(defaultDateArrival);
+    let maxDefaultDateArrival = String(new Date().getFullYear()) + '-' + String(maxDateArrival) + '-' + String(getLastDayOfMonth(new Date().getFullYear(), maxDateArrival));
+    //Дата выезда - плюс два дня от даты въезда
     let defaultDateOfDeparture = String(new Date().getFullYear()) + '-' + String(new Date().getMonth()) + '-' + String(new Date().getDate() + 1 + 2);
     renderBlock('search-form-block', `
     <form>
@@ -21,11 +30,11 @@ export function renderSearchFormBlock(dateArrival, dateOfDeparture) {
         <div class="row">
           <div>
             <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value=${defaultDateArrival} min=${defaultDateArrival} max="2021-06-30" name="checkin" />
+            <input id="check-in-date" type="date" value=${defaultDateArrival} min=${defaultDateArrival}  max=${maxDefaultDateArrival} name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value=${defaultDateOfDeparture} min=${defaultDateOfDeparture} max="2021-06-30" name="checkout" />
+            <input id="check-out-date" type="date" value=${defaultDateOfDeparture} min=${defaultDateOfDeparture}  name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
@@ -38,26 +47,16 @@ export function renderSearchFormBlock(dateArrival, dateOfDeparture) {
       </fieldset>
     </form>
     `);
-    // if (dateArrival >= (String(new Date().getFullYear()) + '-' + String(new Date().getMonth()) + '-' + String(new Date().getDate())) && (dateArrival < (String(new Date().getFullYear()) + '-' + String(new Date().getMonth() + 1) + '-' + '28'))) {
-    // } else {
-    // }
-    let btnSend = document.querySelector(".send");
-    // console.log(btnSend)
-    btnSend.addEventListener('click', () => {
-        let checkInDateSend = document.querySelector("#check-in-date");
+    document.querySelector(".send").addEventListener('click', (e) => {
+        let checkInDate = document.querySelector("#check-in-date");
         let checkOutDate = document.querySelector("#check-out-date");
-        console.log(checkInDateSend.value);
-        console.log(checkOutDate.value);
-        console.log(new Date(checkInDateSend.value) == new Date(checkOutDate.value));
-        console.log(new Date(checkInDateSend.value) > new Date(checkOutDate.value));
-        console.log(new Date(checkInDateSend.value) < new Date(checkOutDate.value));
-        // console.log(btncheckInDateSend.value < checkOutDate.value)
-        // renderSearchFormBlock()
-        if (new Date(checkInDateSend.value) >= new Date(checkOutDate.value)) {
-            console.log("ok");
+        if (new Date((checkInDate.value).slice(0, 4) + '-' + (checkInDate.value).slice(5, 7) + '-' + (checkInDate.value).slice(8)) <= new Date((checkOutDate.value).slice(0, 4) + '-' + (checkOutDate.value).slice(5, 7) + '-' + (checkOutDate.value).slice(8))) {
+            console.log("ok!");
         }
         else {
             renderToast({ text: 'Минимальная дата въезда, которую можно выбрать это дата сегодняшнего дня, а максимальная дата - последний день следующего месяца.', type: 'success' }, { name: 'Понял', handler: () => { console.log('Уведомление закрыто'); } });
         }
+        e.preventDefault();
     });
 }
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2VhcmNoLWZvcm0uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi9zcmMvc2VhcmNoLWZvcm0udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxFQUFFLFdBQVcsRUFBRSxNQUFNLFVBQVUsQ0FBQTtBQUN0QyxPQUFPLEVBQUUsV0FBVyxFQUFFLE1BQU0sVUFBVSxDQUFBO0FBRXRDLE1BQU0sVUFBVSxxQkFBcUIsQ0FBQyxXQUFvQixFQUFFLGVBQXdCO0lBRWxGLHdFQUF3RTtJQUN4RSxTQUFTLGlCQUFpQixDQUFDLElBQVksRUFBRSxLQUFhO1FBQ3BELElBQUksSUFBSSxHQUFHLElBQUksSUFBSSxDQUFDLElBQUksRUFBRSxLQUFLLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDcEMsT0FBTyxJQUFJLENBQUMsT0FBTyxFQUFFLENBQUM7SUFDeEIsQ0FBQztJQUNELDRDQUE0QztJQUM1QyxJQUFJLGNBQWMsR0FBVyxJQUFJLElBQUksRUFBRSxDQUFDLFFBQVEsRUFBRSxJQUFJLEVBQUUsQ0FBQyxDQUFDLENBQUMsSUFBSSxJQUFJLEVBQUUsQ0FBQyxRQUFRLEVBQUUsR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQztJQUV6Rix3REFBd0Q7SUFDeEQsSUFBSSxrQkFBa0IsR0FBVyxNQUFNLENBQUMsSUFBSSxJQUFJLEVBQUUsQ0FBQyxXQUFXLEVBQUUsQ0FBQyxHQUFHLEdBQUcsR0FBRyxNQUFNLENBQUMsSUFBSSxJQUFJLEVBQUUsQ0FBQyxRQUFRLEVBQUUsQ0FBQyxHQUFHLEdBQUcsR0FBRyxNQUFNLENBQUMsSUFBSSxJQUFJLEVBQUUsQ0FBQyxPQUFPLEVBQUUsR0FBRyxDQUFDLENBQUMsQ0FBQztJQUNqSixJQUFJLHFCQUFxQixHQUFXLE1BQU0sQ0FBQyxJQUFJLElBQUksRUFBRSxDQUFDLFdBQVcsRUFBRSxDQUFDLEdBQUcsR0FBRyxHQUFHLE1BQU0sQ0FBQyxjQUFjLENBQUMsR0FBRyxHQUFHLEdBQUcsTUFBTSxDQUFDLGlCQUFpQixDQUFDLElBQUksSUFBSSxFQUFFLENBQUMsV0FBVyxFQUFFLEVBQUUsY0FBYyxDQUFDLENBQUMsQ0FBQztJQUVoTCwyQ0FBMkM7SUFDM0MsSUFBSSxzQkFBc0IsR0FBVyxNQUFNLENBQUMsSUFBSSxJQUFJLEVBQUUsQ0FBQyxXQUFXLEVBQUUsQ0FBQyxHQUFHLEdBQUcsR0FBRyxNQUFNLENBQUMsSUFBSSxJQUFJLEVBQUUsQ0FBQyxRQUFRLEVBQUUsQ0FBQyxHQUFHLEdBQUcsR0FBRyxNQUFNLENBQUMsSUFBSSxJQUFJLEVBQUUsQ0FBQyxPQUFPLEVBQUUsR0FBRyxDQUFDLEdBQUcsQ0FBQyxDQUFDLENBQUM7SUFFekosV0FBVyxDQUNULG1CQUFtQixFQUNuQjs7Ozs7Ozs7Ozs7Ozs7Ozs7MERBaUJzRCxrQkFBa0IsUUFBUSxrQkFBa0IsU0FBUyxxQkFBcUI7Ozs7MkRBSXpFLHNCQUFzQixRQUFRLHNCQUFzQjs7Ozs7Ozs7Ozs7O0tBWTFHLENBQ0YsQ0FBQTtJQUVELFFBQVEsQ0FBQyxhQUFhLENBQUMsT0FBTyxDQUFDLENBQUMsZ0JBQWdCLENBQUMsT0FBTyxFQUFFLENBQUMsQ0FBQyxFQUFFLEVBQUU7UUFDOUQsSUFBSSxXQUFXLEdBQUcsUUFBUSxDQUFDLGFBQWEsQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDO1FBQzNELElBQUksWUFBWSxHQUFHLFFBQVEsQ0FBQyxhQUFhLENBQUMsaUJBQWlCLENBQUMsQ0FBQztRQUU3RCxJQUFJLElBQUksSUFBSSxDQUFDLENBQUMsV0FBVyxDQUFDLEtBQUssQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUMsV0FBVyxDQUFDLEtBQUssQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUMsV0FBVyxDQUFDLEtBQUssQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLElBQUksSUFBSSxDQUFDLENBQUMsWUFBWSxDQUFDLEtBQUssQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUMsWUFBWSxDQUFDLEtBQUssQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUMsWUFBWSxDQUFDLEtBQUssQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUMsQ0FBQyxFQUFFO1lBQ3ZQLE9BQU8sQ0FBQyxHQUFHLENBQUMsS0FBSyxDQUFDLENBQUE7U0FDbkI7YUFBTTtZQUNMLFdBQVcsQ0FDVCxFQUFFLElBQUksRUFBRSxtSUFBbUksRUFBRSxJQUFJLEVBQUUsU0FBUyxFQUFFLEVBQzlKLEVBQUUsSUFBSSxFQUFFLE9BQU8sRUFBRSxPQUFPLEVBQUUsR0FBRyxFQUFFLEdBQUcsT0FBTyxDQUFDLEdBQUcsQ0FBQyxxQkFBcUIsQ0FBQyxDQUFBLENBQUMsQ0FBQyxFQUFFLENBQ3pFLENBQUE7U0FDRjtRQUNELENBQUMsQ0FBQyxjQUFjLEVBQUUsQ0FBQTtJQUNwQixDQUFDLENBQUMsQ0FBQTtBQUNKLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyByZW5kZXJCbG9jayB9IGZyb20gJy4vbGliLmpzJ1xuaW1wb3J0IHsgcmVuZGVyVG9hc3QgfSBmcm9tICcuL2xpYi5qcydcblxuZXhwb3J0IGZ1bmN0aW9uIHJlbmRlclNlYXJjaEZvcm1CbG9jayhkYXRlQXJyaXZhbD86IHN0cmluZywgZGF0ZU9mRGVwYXJ0dXJlPzogc3RyaW5nKSB7XG5cbiAgLy/QpNGD0L3QutGG0LjRjyDQstC+0LfQstGA0LDRidCw0LXRgiDQv9C+0YHQu9C10LTQvdC10LUg0YfQuNGB0LvQviDQv9C10YDQtdC00LDQvdC90L7Qs9C+INC80LXRgdGP0YbQsCDQv9C10YDQtdC00LDQvdC90L7Qs9C+INCz0L7QtNCwXG4gIGZ1bmN0aW9uIGdldExhc3REYXlPZk1vbnRoKHllYXI6IG51bWJlciwgbW9udGg6IG51bWJlcik6IG51bWJlciB7XG4gICAgbGV0IGRhdGUgPSBuZXcgRGF0ZSh5ZWFyLCBtb250aCwgMCk7XG4gICAgcmV0dXJuIGRhdGUuZ2V0RGF0ZSgpO1xuICB9XG4gIC8vINCg0LDRgdGH0LXRgiDQvNC10YHRj9GG0LAsINC60L7RgtC+0YDRi9C5INGB0LvQtdC00YPQtdGCINC30LAg0YLQtdC60YPRidC40LxcbiAgbGV0IG1heERhdGVBcnJpdmFsOiBudW1iZXIgPSBuZXcgRGF0ZSgpLmdldE1vbnRoKCkgPD0gMTAgPyBuZXcgRGF0ZSgpLmdldE1vbnRoKCkgKyAxIDogMDtcblxuICAvL9CU0LXRhNC+0LvRgtC90LDRjyDQtNCw0YLQsCDQstGL0LXQt9C00LAgLSDRgdC70LXQtNGD0Y7RidC40Lkg0LTQtdC90Ywg0L7RgiDRgtC10LrRg9GJ0LXQuSDQtNCw0YLRi1xuICBsZXQgZGVmYXVsdERhdGVBcnJpdmFsOiBzdHJpbmcgPSBTdHJpbmcobmV3IERhdGUoKS5nZXRGdWxsWWVhcigpKSArICctJyArIFN0cmluZyhuZXcgRGF0ZSgpLmdldE1vbnRoKCkpICsgJy0nICsgU3RyaW5nKG5ldyBEYXRlKCkuZ2V0RGF0ZSgpICsgMSk7XG4gIGxldCBtYXhEZWZhdWx0RGF0ZUFycml2YWw6IHN0cmluZyA9IFN0cmluZyhuZXcgRGF0ZSgpLmdldEZ1bGxZZWFyKCkpICsgJy0nICsgU3RyaW5nKG1heERhdGVBcnJpdmFsKSArICctJyArIFN0cmluZyhnZXRMYXN0RGF5T2ZNb250aChuZXcgRGF0ZSgpLmdldEZ1bGxZZWFyKCksIG1heERhdGVBcnJpdmFsKSk7XG5cbiAgLy/QlNCw0YLQsCDQstGL0LXQt9C00LAgLSDQv9C70Y7RgSDQtNCy0LAg0LTQvdGPINC+0YIg0LTQsNGC0Ysg0LLRitC10LfQtNCwXG4gIGxldCBkZWZhdWx0RGF0ZU9mRGVwYXJ0dXJlOiBzdHJpbmcgPSBTdHJpbmcobmV3IERhdGUoKS5nZXRGdWxsWWVhcigpKSArICctJyArIFN0cmluZyhuZXcgRGF0ZSgpLmdldE1vbnRoKCkpICsgJy0nICsgU3RyaW5nKG5ldyBEYXRlKCkuZ2V0RGF0ZSgpICsgMSArIDIpO1xuXG4gIHJlbmRlckJsb2NrKFxuICAgICdzZWFyY2gtZm9ybS1ibG9jaycsXG4gICAgYFxuICAgIDxmb3JtPlxuICAgICAgPGZpZWxkc2V0IGNsYXNzPVwic2VhcmNoLWZpbGVkc2V0XCI+XG4gICAgICAgIDxkaXYgY2xhc3M9XCJyb3dcIj5cbiAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgPGxhYmVsIGZvcj1cImNpdHlcIj7Qk9C+0YDQvtC0PC9sYWJlbD5cbiAgICAgICAgICAgIDxpbnB1dCBpZD1cImNpdHlcIiB0eXBlPVwidGV4dFwiIGRpc2FibGVkIHZhbHVlPVwi0KHQsNC90LrRgi3Qn9C10YLQtdGA0LHRg9GA0LNcIiAvPlxuICAgICAgICAgICAgPGlucHV0IHR5cGU9XCJoaWRkZW5cIiBkaXNhYmxlZCB2YWx1ZT1cIjU5LjkzODYsMzAuMzE0MVwiIC8+XG4gICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgPCEtLTxkaXYgY2xhc3M9XCJwcm92aWRlcnNcIj5cbiAgICAgICAgICAgIDxsYWJlbD48aW5wdXQgdHlwZT1cImNoZWNrYm94XCIgbmFtZT1cInByb3ZpZGVyXCIgdmFsdWU9XCJob215XCIgY2hlY2tlZCAvPiBIb215PC9sYWJlbD5cbiAgICAgICAgICAgIDxsYWJlbD48aW5wdXQgdHlwZT1cImNoZWNrYm94XCIgbmFtZT1cInByb3ZpZGVyXCIgdmFsdWU9XCJmbGF0LXJlbnRcIiBjaGVja2VkIC8+IEZsYXRSZW50PC9sYWJlbD5cbiAgICAgICAgICA8L2Rpdj4tLSE+XG4gICAgICAgIDwvZGl2PlxuICAgICAgICA8ZGl2IGNsYXNzPVwicm93XCI+XG4gICAgICAgICAgPGRpdj5cbiAgICAgICAgICAgIDxsYWJlbCBmb3I9XCJjaGVjay1pbi1kYXRlXCI+0JTQsNGC0LAg0LfQsNC10LfQtNCwPC9sYWJlbD5cbiAgICAgICAgICAgIDxpbnB1dCBpZD1cImNoZWNrLWluLWRhdGVcIiB0eXBlPVwiZGF0ZVwiIHZhbHVlPSR7ZGVmYXVsdERhdGVBcnJpdmFsfSBtaW49JHtkZWZhdWx0RGF0ZUFycml2YWx9ICBtYXg9JHttYXhEZWZhdWx0RGF0ZUFycml2YWx9IG5hbWU9XCJjaGVja2luXCIgLz5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgPGxhYmVsIGZvcj1cImNoZWNrLW91dC1kYXRlXCI+0JTQsNGC0LAg0LLRi9C10LfQtNCwPC9sYWJlbD5cbiAgICAgICAgICAgIDxpbnB1dCBpZD1cImNoZWNrLW91dC1kYXRlXCIgdHlwZT1cImRhdGVcIiB2YWx1ZT0ke2RlZmF1bHREYXRlT2ZEZXBhcnR1cmV9IG1pbj0ke2RlZmF1bHREYXRlT2ZEZXBhcnR1cmV9ICBuYW1lPVwiY2hlY2tvdXRcIiAvPlxuICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgIDxkaXY+XG4gICAgICAgICAgICA8bGFiZWwgZm9yPVwibWF4LXByaWNlXCI+0JzQsNC60YEuINGG0LXQvdCwINGB0YPRgtC+0Lo8L2xhYmVsPlxuICAgICAgICAgICAgPGlucHV0IGlkPVwibWF4LXByaWNlXCIgdHlwZT1cInRleHRcIiB2YWx1ZT1cIlwiIG5hbWU9XCJwcmljZVwiIGNsYXNzPVwibWF4LXByaWNlXCIgLz5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgPGRpdj48YnV0dG9uIGNsYXNzPVwic2VuZFwiPtCd0LDQudGC0Lg8L2J1dHRvbj48L2Rpdj5cbiAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgPC9kaXY+XG4gICAgICA8L2ZpZWxkc2V0PlxuICAgIDwvZm9ybT5cbiAgICBgXG4gIClcblxuICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnNlbmRcIikuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoZSkgPT4ge1xuICAgIGxldCBjaGVja0luRGF0ZSA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIjY2hlY2staW4tZGF0ZVwiKTtcbiAgICBsZXQgY2hlY2tPdXREYXRlID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIiNjaGVjay1vdXQtZGF0ZVwiKTtcblxuICAgIGlmIChuZXcgRGF0ZSgoY2hlY2tJbkRhdGUudmFsdWUpLnNsaWNlKDAsIDQpICsgJy0nICsgKGNoZWNrSW5EYXRlLnZhbHVlKS5zbGljZSg1LCA3KSArICctJyArIChjaGVja0luRGF0ZS52YWx1ZSkuc2xpY2UoOCkpIDw9IG5ldyBEYXRlKChjaGVja091dERhdGUudmFsdWUpLnNsaWNlKDAsIDQpICsgJy0nICsgKGNoZWNrT3V0RGF0ZS52YWx1ZSkuc2xpY2UoNSwgNykgKyAnLScgKyAoY2hlY2tPdXREYXRlLnZhbHVlKS5zbGljZSg4KSkpIHtcbiAgICAgIGNvbnNvbGUubG9nKFwib2shXCIpXG4gICAgfSBlbHNlIHtcbiAgICAgIHJlbmRlclRvYXN0KFxuICAgICAgICB7IHRleHQ6ICfQnNC40L3QuNC80LDQu9GM0L3QsNGPINC00LDRgtCwINCy0YrQtdC30LTQsCwg0LrQvtGC0L7RgNGD0Y4g0LzQvtC20L3QviDQstGL0LHRgNCw0YLRjCDRjdGC0L4g0LTQsNGC0LAg0YHQtdCz0L7QtNC90Y/RiNC90LXQs9C+INC00L3Rjywg0LAg0LzQsNC60YHQuNC80LDQu9GM0L3QsNGPINC00LDRgtCwIC0g0L/QvtGB0LvQtdC00L3QuNC5INC00LXQvdGMINGB0LvQtdC00YPRjtGJ0LXQs9C+INC80LXRgdGP0YbQsC4nLCB0eXBlOiAnc3VjY2VzcycgfSxcbiAgICAgICAgeyBuYW1lOiAn0J/QvtC90Y/QuycsIGhhbmRsZXI6ICgpID0+IHsgY29uc29sZS5sb2coJ9Cj0LLQtdC00L7QvNC70LXQvdC40LUg0LfQsNC60YDRi9GC0L4nKSB9IH1cbiAgICAgIClcbiAgICB9XG4gICAgZS5wcmV2ZW50RGVmYXVsdCgpXG4gIH0pXG59XG4iXX0=
