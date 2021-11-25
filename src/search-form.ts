@@ -68,6 +68,44 @@ export function renderSearchFormBlock(dateArrival?: string, dateOfDeparture?: st
         { name: 'Понял', handler: () => { console.log('Уведомление закрыто') } }
       )
     }
+
+    searchFromHandler()
+
     e.preventDefault()
   })
+}
+
+interface SearchFormData {
+  town: string,
+  dateArrival: string,
+  dateOfDeparture: string,
+  maxPrice: string
+}
+
+// Массив данных формы поиска
+let searchData: SearchFormData = {
+  town: '',
+  dateArrival: '',
+  dateOfDeparture: '',
+  maxPrice: ''
+}
+
+// Обработчик собирает данные введенные пользователем и передаёт их в поиск
+export function searchFromHandler(): void {
+
+
+  searchData.town = document.querySelector('#city').value
+  searchData.dateArrival = document.querySelector('#check-in-date').value
+  searchData.dateOfDeparture = document.querySelector('#check-out-date').value
+  searchData.maxPrice = document.querySelector('#max-price').value
+
+  search(searchData.town, searchData.dateArrival, searchData.dateOfDeparture, searchData.maxPrice)
+}
+
+// Функция поиска
+export function search(town: string, dateArrival: string, dateOfDeparture: string, maxPrice: string): void {
+  console.log(town)
+  console.log(dateArrival)
+  console.log(dateOfDeparture)
+  console.log(maxPrice)
 }

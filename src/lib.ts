@@ -1,3 +1,5 @@
+import { localStoragee } from './localStorage.js'
+
 export function renderBlock(elementId: string, html: string): void {
   const element = document.getElementById(elementId)
   element.innerHTML = html
@@ -39,4 +41,28 @@ export function renderToast(message: AnswerRenderToast, action?: ActionRenderToa
       renderToast(null)
     }
   }
+}
+
+export function getUserData(value: unknown): boolean | { username: string, avatarUrl: string } {
+  if (value == null) {
+    return null
+  }
+
+  if ('user' in localStoragee) {
+    return localStoragee.user;
+  }
+
+  return null
+}
+
+export function getFavoritesAmount(favoritesAmount: unknown): number | boolean {
+  if (favoritesAmount == null) {
+    return null
+  }
+
+  if (`favoritesAmount` in localStoragee) {
+    return localStoragee.favoritesAmount;
+  }
+
+  return null
 }
