@@ -1,5 +1,7 @@
-import { localStoragee } from './localStorage.js'
-
+/**
+ * @param elementId {string} - id элемента
+ * @param html {string} - html для вставки в верстку
+ */
 export function renderBlock(elementId: string, html: string): void {
   const element = document.getElementById(elementId)
   element.innerHTML = html
@@ -14,7 +16,10 @@ interface ActionRenderToast {
   name: string,
   handler: Function
 }
-
+/**
+ * @param message {AnswerRenderToast} - объект с сообщение, которое покажется пользователю
+ * @param action {ActionRenderToast} - объект с методом, который выводит в консоль текст при закрытии уведомления
+ */
 export function renderToast(message: AnswerRenderToast, action?: ActionRenderToast): void {
   let messageText = ''
 
@@ -48,8 +53,8 @@ export function getUserData(value: unknown): boolean | { username: string, avata
     return null
   }
 
-  if ('user' in localStoragee) {
-    return localStoragee.user;
+  if ('user' in localStorage) {
+    return localStorage.user;
   }
 
   return null
@@ -60,9 +65,39 @@ export function getFavoritesAmount(favoritesAmount: unknown): number | boolean {
     return null
   }
 
-  if (`favoritesAmount` in localStoragee) {
-    return localStoragee.favoritesAmount;
+  if (`favoritesAmount` in localStorage) {
+    return +localStorage.favoritesAmount;
   }
 
   return null
+}
+
+export interface Todos {
+  userId: number,
+  id: number,
+  title: string,
+  completed: boolean
+}
+
+/**
+ * @param count {number} - количество todo, которое нужно отобразить
+ */
+export function getTodosByCount(count: number): void {
+
+  for (let i = 1; i <= count; i++) {
+    fetch(`https://jsonplaceholder.typicode.com/todos/${i}`)
+      .then<Todos>(response => response.json())
+      .then((json) => {
+        if (
+          typeof json.userId == 'number'
+          && typeof json.id == 'number'
+          && typeof json.title == 'string'
+          && typeof json.completed == 'boolean'
+        ) {
+          console.log(json)
+        } else {
+          console.log('Пришли не правильные данные')
+        }
+      })
+  }
 }
