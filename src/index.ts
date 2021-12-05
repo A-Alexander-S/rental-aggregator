@@ -2,19 +2,27 @@ import { renderSearchFormBlock } from './search-form.js'
 import { renderSearchStubBlock } from './search-results.js'
 import { renderUserBlock } from './user.js'
 import { renderToast } from './lib.js'
-import { getUserData } from './lib.js'
-import { getFavoritesAmount } from './lib.js'
-import { localStoragee } from './localStorage.js'
-import { searchFromHandler } from './search-form.js'
+import { getTodosByCount } from './lib.js'
 
 window.addEventListener('DOMContentLoaded', () => {
-  renderUserBlock(localStoragee.user.username, localStoragee.user.avatarUrl, localStoragee.favoritesAmount)
-  // renderUserBlock('Wade Warren', 'heart-red.png', 5)
-  console.log(new Date())
+  localStorage.setItem('user',
+    JSON.stringify({
+      username: "Wade Warren",
+      avatarUrl: "./img/avatar.png"
+    }))
+
+  localStorage.setItem('favoritesAmount', '10')
+
+  renderUserBlock(
+    JSON.parse(localStorage.getItem('user')).username,
+    JSON.parse(localStorage.getItem('user')).avatarUrl,
+    +localStorage.getItem('favoritesAmount'))
+
   renderSearchFormBlock()
   renderSearchStubBlock()
-  renderToast(
-    { text: 'Это пример уведомления. Используйте его при необходимости', type: 'success' },
-    { name: 'Понял', handler: () => { console.log('Уведомление закрыто') } }
-  )
+  // renderToast(
+  //   { text: 'Это пример уведомления. Используйте его при необходимости', type: 'success' },
+  //   { name: 'Понял', handler: () => { console.log('Уведомление закрыто') } }
+  // )
+  getTodosByCount(2)
 })
