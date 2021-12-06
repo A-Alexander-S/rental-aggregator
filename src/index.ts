@@ -2,6 +2,7 @@ import { renderSearchFormBlock } from './search-form.js'
 import { renderSearchStubBlock } from './search-results.js'
 import { renderUserBlock } from './user.js'
 import { renderToast } from './lib.js'
+import { renderBlock } from './lib.js'
 import { getTodosByCount } from './lib.js'
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -25,4 +26,15 @@ window.addEventListener('DOMContentLoaded', () => {
   //   { name: 'Понял', handler: () => { console.log('Уведомление закрыто') } }
   // )
   getTodosByCount(2)
+  // renderBlock(
+  //   'search-results-block',
+  //   `<div class="figure">
+  //     <div class="rectangle" style="width:60px;height:20px; background:red;"><div/>
+
+  //   <div/>`
+  // )
+  // document.querySelector('.rectangle').addEventListener('click', () => {
+  //   document.querySelector('.rectangle').style.marginLeft = `40px`;
+  //   console.log(parseInt(document.querySelector('.rectangle').style.marginLeft))
+  // })
 })
