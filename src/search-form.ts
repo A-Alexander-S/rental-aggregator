@@ -62,9 +62,9 @@ export function renderSearchFormBlock(dateArrival?: string, dateOfDeparture?: st
     `
   )
 
-  document.querySelector(".send").addEventListener('click', (e) => {
-    let checkInDate: HTMLInputElement = document.querySelector("#check-in-date");
-    let checkOutDate: HTMLInputElement = document.querySelector("#check-out-date");
+  document.querySelector(".send")?.addEventListener('click', (e) => {
+    let checkInDate: HTMLInputElement = document.querySelector("#check-in-date")!;
+    let checkOutDate: HTMLInputElement = document.querySelector("#check-out-date")!;
 
     if (new Date((checkInDate.value).slice(0, 4) + '-' + (checkInDate.value).slice(5, 7) + '-' + (checkInDate.value).slice(8)) <= new Date((checkOutDate.value).slice(0, 4) + '-' + (checkOutDate.value).slice(5, 7) + '-' + (checkOutDate.value).slice(8))) {
       console.log("ok!")
@@ -137,10 +137,10 @@ export function search(town: string, dateArrival: string, dateOfDeparture: strin
 
 // Обработчик собирает данные введенные пользователем и передаёт их в функцию поиска
 export function handlerFromFormSearch(): void {
-  const town: HTMLInputElement = document.querySelector('#city')
-  const dateArrival: HTMLInputElement = document.querySelector('#check-in-date')
-  const dateOfDeparture: HTMLInputElement = document.querySelector('#check-out-date')
-  const maxPrice: HTMLInputElement = document.querySelector('#max-price')
+  const town: HTMLInputElement = document.querySelector('#city')!
+  const dateArrival: HTMLInputElement = document.querySelector('#check-in-date')!
+  const dateOfDeparture: HTMLInputElement = document.querySelector('#check-out-date')!
+  const maxPrice: HTMLInputElement = document.querySelector('#max-price')!
 
   searchData.town = town.value
   searchData.dateArrival = dateArrival.value

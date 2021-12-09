@@ -13,11 +13,12 @@ window.addEventListener('DOMContentLoaded', () => {
     }))
 
   localStorage.setItem('favoritesAmount', '10')
+  console.log(localStorage.getItem('user'))
 
   renderUserBlock(
-    JSON.parse(localStorage.getItem('user')).username,
-    JSON.parse(localStorage.getItem('user')).avatarUrl,
-    +localStorage.getItem('favoritesAmount'))
+    JSON.parse(localStorage.getItem('user')!).username,
+    JSON.parse(localStorage.getItem('user')!).avatarUrl,
+    +localStorage.getItem('favoritesAmount')!)
 
   renderSearchFormBlock()
   renderSearchStubBlock()
