@@ -3,7 +3,7 @@
  * @param html {string} - html для вставки в верстку
  */
 export function renderBlock(elementId: string, html: string): void {
-  const element = document.getElementById(elementId)
+  const element: HTMLElement = document.getElementById(elementId)
   element.innerHTML = html
 }
 
@@ -20,7 +20,7 @@ interface ActionRenderToast {
  * @param message {AnswerRenderToast} - объект с сообщение, которое покажется пользователю
  * @param action {ActionRenderToast} - объект с методом, который выводит в консоль текст при закрытии уведомления
  */
-export function renderToast(message: AnswerRenderToast, action?: ActionRenderToast): void {
+export function renderToast(message: AnswerRenderToast | null, action?: ActionRenderToast | null): void {
   let messageText = ''
 
   if (message != null) {
@@ -48,25 +48,25 @@ export function renderToast(message: AnswerRenderToast, action?: ActionRenderToa
   }
 }
 
-export function getUserData(value: unknown): boolean | { username: string, avatarUrl: string } {
+export function getUserData(value: unknown): boolean | null | { username: string, avatarUrl: string } {
   if (value == null) {
     return null
   }
 
   if ('user' in localStorage) {
-    return localStorage.user;
+    return localStorage["user"];
   }
 
   return null
 }
 
-export function getFavoritesAmount(favoritesAmount: unknown): number | boolean {
+export function getFavoritesAmount(favoritesAmount: unknown): number | null {
   if (favoritesAmount == null) {
     return null
   }
 
   if (`favoritesAmount` in localStorage) {
-    return +localStorage.favoritesAmount;
+    return +localStorage["favoritesAmount"];
   }
 
   return null
