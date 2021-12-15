@@ -38,7 +38,7 @@ export class MyCircle extends MyAreaPrimitive2D {
   radius: number
   square: number
 
-  constructor(center: number, radius: number, width?: number, height?: number) {
+  constructor(center: number, radius: number, width: number, height: number) {
     super(width, height)
     this.center = center
     this.radius = radius

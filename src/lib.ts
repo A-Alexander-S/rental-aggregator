@@ -3,7 +3,7 @@
  * @param html {string} - html для вставки в верстку
  */
 export function renderBlock(elementId: string, html: string): void {
-  const element: HTMLElement = document.getElementById(elementId)
+  const element: HTMLElement = <HTMLElement>document.getElementById(elementId)
   element.innerHTML = html
 }
 
