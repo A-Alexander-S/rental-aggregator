@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "rental-aggregator(typeScript)",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "rd -r public\\ 2>null & tsc",
     "build:dev": "rd -r public\\ 2>null & tsc -p tsconfig-dev.json",
